@@ -1,29 +1,6 @@
 const WIDTH_DELTA = 50;
 const RANDOM_DELTA = 0;
-
-function logspace(a, b, len) {
-    // https://github.com/compute-io/logspace/blob/master/lib/index.js
-    var arr,
-        end,
-        tmp,
-        d;
-
-
-    // Calculate the increment:
-    end = len - 1;
-    d = (b - a) / end;
-
-    // Build the output array...
-    arr = new Array(len);
-    tmp = a;
-    arr[0] = Math.pow(10, tmp);
-    for (var i = 1; i < end; i++) {
-        tmp += d;
-        arr[i] = Math.pow(10, tmp);
-    }
-    arr[end] = Math.pow(10, b);
-    return arr;
-}
+const ELLIPSE_SIZE = 10;
 
 function Track() {
     this.noise_level = 10;
@@ -46,7 +23,6 @@ function Track() {
     }
 
     this.update = function () {
-        // reset arrays
         this.points = [];
         this.segments = [];
         this.generatePoints();
@@ -86,7 +62,6 @@ function Track() {
         // stroke(0, 0, 0, 50);
         // strokeWeight(.5);
         line(left.x, left.y, right.x, right.y);
-        fill(127, 127, 0)
         ellipse(left.x, left.y, ELLIPSE_SIZE, ELLIPSE_SIZE);
         ellipse(middle.x, middle.y, ELLIPSE_SIZE, ELLIPSE_SIZE);
         ellipse(right.x, right.y, ELLIPSE_SIZE, ELLIPSE_SIZE);
@@ -101,25 +76,17 @@ function Track() {
     this.drawStart = function () {
         stroke(0, 255, 0);
         // strokeWeight(.5);
+        fill(0, 255, 0)
         this.drawSegmentLine(this.start.left, this.start.middle, this.start.right);
     }
 
     this.drawEnd = function () {
         stroke(255, 0, 0);
+        fill(255, 0, 0);
         this.drawSegmentLine(this.end.left, this.end.middle, this.end.right);
     }
 
     this.draw = function () {
-        for (let i = 1; i < this.segments.length; i++) {
-            this.drawConnector(this.segments[i - 1].left, this.segments[i].left);
-            this.drawConnector(this.segments[i - 1].right, this.segments[i].right);
-            this.drawConnector(this.segments[i - 1].middle, this.segments[i].middle, 2);
-            fill(127, 127, 0)
-            ellipse(this.segments[i].middle.x, this.segments[i].middle.y, ELLIPSE_SIZE, ELLIPSE_SIZE);
-
-        }
-
-
         beginShape();
         fill(0, 0, 0, 50);
         noStroke();
@@ -127,9 +94,16 @@ function Track() {
             vertex(this.poly[j].x, this.poly[j].y);
         }
         endShape(CLOSE);
+
+        for (let i = 1; i < this.segments.length; i++) {
+            this.drawConnector(this.segments[i - 1].left, this.segments[i].left);
+            this.drawConnector(this.segments[i - 1].right, this.segments[i].right);
+            this.drawConnector(this.segments[i - 1].middle, this.segments[i].middle, 2);
+            fill(255, 255, 0)
+            ellipse(this.segments[i].middle.x, this.segments[i].middle.y, ELLIPSE_SIZE/2, ELLIPSE_SIZE/2);
+        }
         this.drawStart();
         this.drawEnd();
-
     }
 
     this.drawBezier = function(){
@@ -159,6 +133,17 @@ function Track() {
             curveVertex(this.segments[0][edges[i]].x, this.segments[0][edges[i]].y);
             curveVertex(this.segments[1][edges[i]].x, this.segments[1][edges[i]].y);
             endShape();
+        }
+    }
+
+    this.getStartingPositionDirection = function () {
+        let start = this.segments[0];
+        let next = this.segments[1];
+        let dir = p5.Vector.sub(next.middle, start.middle);
+        let mid = next.middle.copy().sub(dir.copy().mult(0.5));
+        return {
+            position: mid,
+            direction: dir
         }
     }
 }

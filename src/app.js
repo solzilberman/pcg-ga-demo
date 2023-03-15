@@ -1,5 +1,10 @@
-let road;
-let vehicle;
+
+const SINGLE_EPOCH_DURATION = 200;
+const POPULATION_SIZE = 500;
+let SINGLE_EPOCH_COUNT = 0;
+let POPULATION;
+let track;
+
 let sliderTheta;
 let labelTheta;
 let sliderTX;
@@ -8,22 +13,22 @@ let sliderTY;
 let labelTY;
 let sliderNumSegments;
 let labelNumSegments;
+let fitLabel;
+let userHasClicked = false;
 
-let track;
 function setup() {    
-    randomSeed(870);
+    // randomSeed(870);
     var canvas = createCanvas(1080,920);
     canvas.parent('canvasParent');
-    road = new Road(25);
-    vehicle = new Vehicle(createVector(500, 50), 1);
     createSliders();
     track = new Track();
+    POPULATION = new Population(track);
+
 }
 
 function draw() {
     background(220);
-    // road.roadSegments[0].theta = sliderTheta.value();
-    // road.roadSegments[0].translation = createVector(sliderTX.value(), sliderTY.value());
+   
     tmpNumSeg = sliderNumSegments.value();
     if (track.num_segments != tmpNumSeg) {
         track.num_segments = sliderNumSegments.value();
@@ -37,20 +42,25 @@ function draw() {
         track.update();
     }
     labelNoiseLevel.html('Noise Level: ' + track.noise_level);
-    // // road.generateRoad();
-    // road.draw();
-
-    // labelTheta.html('Theta: ' + (road.roadSegments[0].theta* 180 / PI).toFixed(2));
-    // labelTX.html('TX: ' + road.roadSegments[0].translation.x);
-    // labelTY.html('TY: ' + road.roadSegments[0].translation.y);
+    
     track.draw();
-    // vehicle.findNearestWaypoint(track.segments);
-    vehicle.update();
-    vehicle.draw();
+    for (let i = 0; i < POPULATION.population.length; i++) {
+        POPULATION.population[i].update();
+        POPULATION.population[i].draw();
+    }
+    SINGLE_EPOCH_COUNT++;
+    if (SINGLE_EPOCH_COUNT > SINGLE_EPOCH_DURATION || POPULATION.checkAllCrashed()) {
+        SINGLE_EPOCH_COUNT = 0;
+        let bf = POPULATION.evaluate();
+        fitLabel.html('Best Fitness: ' + bf);
+    }
+    console.log(POPULATION.population.length);
 
 
 }
 
+    
+function mousePressed() { userHasClicked = true; }
 
 function createSliders() {
     sliderTheta = createSlider(0, PI/2, PI/4,PI/180);
@@ -81,11 +91,17 @@ function createSliders() {
     labelNumSegments.position(150, 5+70);
     labelNumSegments.style('font-size', '12px');
 
-    // slider for noise level
     sliderNoiseLevel = createSlider(0, 100, 20, 1);
     sliderNoiseLevel.position(10, 90);
     sliderNoiseLevel.style('width', '120px');
     labelNoiseLevel = createDiv('Noise Level');
     labelNoiseLevel.position(150, 5+90);
     labelNoiseLevel.style('font-size', '12px');
+
+    fitLabel = createDiv('Fitness');
+    fitLabel.position(10, 120);
+    fitLabel.style('font-size', '12px');
+    fitLabel.style('font-weight', 'bold');
+    fitLabel.style('color', 'red');
+
 }
