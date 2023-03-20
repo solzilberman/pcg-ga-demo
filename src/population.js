@@ -24,11 +24,15 @@ function Population(track){
             }
         }
         this.population.sort((a, b) => b.fitness - a.fitness);
+        let avg_fit = this.population.reduce((acc, cur) => acc + cur.fitness, 0) / this.population.length;
         let new_population = this.selection(this.population.slice(0, this.population_size / 2));
         // destroy old population
         this.population = [];
         this.population = new_population;
-        return max_fitness;
+        return {
+            "max": max_fitness,
+            "avg": avg_fit,
+        };
     }
 
     this.crossover = function (parent_a, parent_b) {

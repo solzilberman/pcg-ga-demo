@@ -1,5 +1,3 @@
-const MUTATION_RATE = 0.01;
-const MAX_MAG = 2;
 function Genome(genes) {
     this.genes = [];
     if (genes) {

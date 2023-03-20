@@ -1,11 +1,3 @@
-let {
-    scale,
-    rotate,
-    translate,
-    compose,
-    applyToPoint
-} = window.TransformationMatrix;
-
 function intersects(v0, v1, v2, v3) {
     let a = v0.x, b = v0.y, c = v1.x, d = v1.y, p = v2.x, q = v2.y, r = v3.x, s = v3.y;
     // https://stackoverflow.com/questions/9043805/test-if-two-lines-intersect-javascript-function
@@ -47,18 +39,19 @@ function Vehicle(track, starting_pos = createVector(width / 2, height / 2), star
         this.vel.add(this.acc);
         this.pos.add(this.vel);
         this.acc.mult(0);
-        this.vel.limit(5);
+        this.vel.limit(MAX_MAG);
         this.count++;
     }
 
     this.draw = function () {
         stroke(0, 0, 0);
+        strokeWeight(.1);
         fill(this.fill);
         // circle(this.pos.x, this.pos.y, 10);
         // line(this.pos.x, this.pos.y, 0, this.pos.y);
-        let front  = createVector(this.pos.x+10, this.pos.y);
-        let b = createVector(this.pos.x-10, this.pos.y-5);
-        let c = createVector(this.pos.x-10, this.pos.y+5);
+        let front  = createVector(this.pos.x+VEHICLE_SIZE, this.pos.y);
+        let b = createVector(this.pos.x-VEHICLE_SIZE, this.pos.y-VEHICLE_SIZE/2);
+        let c = createVector(this.pos.x-VEHICLE_SIZE, this.pos.y+VEHICLE_SIZE/2);
         let angle = Math.atan2(this.vel.y, this.vel.x);
         let rot = rotate(angle, this.pos.x, this.pos.y);
         front  = applyToPoint(rot, front);

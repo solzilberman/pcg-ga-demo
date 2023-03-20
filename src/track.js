@@ -1,18 +1,14 @@
-const WIDTH_DELTA = 50;
-const RANDOM_DELTA = 0;
-const ELLIPSE_SIZE = 10;
-
 function Track() {
-    this.noise_level = 10;
-    this.radius = 300;
+    this.noise_level = INIT_NOISE_LEVEL;
+    this.radius = TRACK_RADIUS;
     this.num_segments = 10;
     this.points = [];
     this.segments = [];
     this.center = createVector(width / 2, height / 2);
-
+    this.theta = INIT_TRACK_THETA;
     this.generatePoints = function () {
         for (let i = 0; i < this.num_segments; i++) {
-            let angle = i * 1.5*PI / this.num_segments;
+            let angle = i * this.theta*PI / this.num_segments;
             let x = width / 2 + this.radius * cos(angle);
             let y = height / 2 + this.radius * sin(angle);
             let offset = map(noise(i), 0, 1, -this.noise_level, this.noise_level);
