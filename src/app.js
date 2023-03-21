@@ -14,19 +14,19 @@ let POPULATION_RANDOM;
 let TRACK;
 let TRACK_RANDOM;
 
-let fitData = [(0,0)];
+let fitData = [0];
 let plotDiv; 
 var svg;
+var canvas2DContext;
 function setup() {    
     // randomSeed(870);
     var canvas = createCanvas(screen_width,screen_height);
     canvas.parent('canvasParent');
+    canvas2DContext = canvas.canvas;
     TRACK = new Track();
     TRACK_RANDOM = new Track();
     TRACK_RANDOM.y_offset = 0.15*height;
-    TRACK_RANDOM.update();
-    
-        
+    TRACK_RANDOM.update();   
     createGui();
 }
 
@@ -61,14 +61,45 @@ function draw() {
                 bf.avg = Math.round(bf.avg * 1e5) / 1e5;
                 bf.max = Math.round(bf.max * 1e5) / 1e5;
                 fitLabel.html(`<strong>GA</strong> <br> Epoch: ${CURR_GENERATION} <br> Best Fitness: ${bf.max} <br> Average Fitness: ${bf.avg}`);
-                fitData.push([CURR_GENERATION, bf.max]);
+                fitData.push(bf.max);
                 let bf_random = POPULATION_RANDOM.evaluateRandom();
                 bf_random.avg = Math.round(bf_random.avg * 1e5) / 1e5;
                 bf_random.max = Math.round(bf_random.max * 1e5) / 1e5;
                 fitLabelRandom.html(`<strong>Monte Carlo</strong> <br> Epoch: ${CURR_GENERATION} <br> Best Fitness: ${bf_random.max} <br> Average Fitness: ${bf_random.avg}`);
+                // drawPlot();
             }
-            console.log(POPULATION.population.length);
+            // console.log(POPULATION.population.length);
             break;
+            
     };
 }
 
+function drawPlot() {
+    let plotWidth = 200, plotHeight=200;
+    var svg = d3.select("#plotParent svg");
+    if (svg.empty()) {
+        svg = d3.select("#plotParent").append("svg")
+        .attr("width", plotWidth)
+        .attr("height", plotHeight);
+    }
+    svg.selectAll("*").remove();
+
+    var x = d3.scaleLinear()
+        .domain([0, fitData.length])
+        .range([0, plotWidth]);
+
+    var y = d3.scaleLinear()
+        .domain([0, d3.max(fitData)])
+        .range([plotHeight, 0]);
+        
+    var line = d3.line()
+        .x(function(d, i) { return x(i); })
+        .y(function(d, i) { return y(d); });
+
+    svg.append("path")
+        .datum(fitData)
+        .attr("class", "line")
+        .attr("d", line)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+  }
