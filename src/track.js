@@ -101,7 +101,6 @@ function Track() {
         this.drawStart();
         this.drawEnd();
 
-        // add text right of end with letter R
         fill(255);
         noStroke();
         textSize(32);
