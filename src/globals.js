@@ -4,7 +4,7 @@ let screen_height = window.innerHeight * 0.90;
 
 // ga
 var POPULATION_SIZE = 500;
-var SINGLE_EPOCH_DURATION = 10;
+var SINGLE_EPOCH_DURATION = 200;
 var MUTATION_RATE = 0.01;
 var MAX_MAG = 5;
 var GENOME_MAX_MAG = 2;
