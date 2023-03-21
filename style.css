@@ -1,3 +1,16 @@
 #canvasParent {
   display: flex;
+  flex-direction: row-reverse;
+  float: left;
 }
+
+#guiDiv {
+ /* upper right hand corner canvasParent */
+  top: 0;
+  right: 0;
+  background: rgb(214, 203, 203);
+  width: 15vw;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+} 

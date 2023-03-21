@@ -8,6 +8,7 @@ function Population(track){
     this.generatePopulation = function () {
         this.population = [];
         for (let i = 0; i < this.population_size; i++) {
+            // random 2d vector +- 10
             this.population.push(new Vehicle(this.track, position.copy(), direction.normalize()));
         }
     }
@@ -29,6 +30,26 @@ function Population(track){
         // destroy old population
         this.population = [];
         this.population = new_population;
+        return {
+            "max": max_fitness,
+            "avg": avg_fit,
+        };
+    }
+
+    this.evaluateRandom = function () {
+        let max_fitness = 0;
+        let max_fitness_index = 0;
+        for (let i = 0; i < this.population_size; i++) {
+            this.population[i].calculateFitness();
+            if (this.population[i].fitness > max_fitness) {
+                max_fitness = this.population[i].fitness;
+                max_fitness_index = i;
+            }
+        }
+        this.population.sort((a, b) => b.fitness - a.fitness);
+        let avg_fit = this.population.reduce((acc, cur) => acc + cur.fitness, 0) / this.population.length;
+        this.population = [];
+        this.generatePopulation();
         return {
             "max": max_fitness,
             "avg": avg_fit,

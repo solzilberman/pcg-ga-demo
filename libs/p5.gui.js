@@ -108,6 +108,7 @@
       let y = 20;
   
       var qs = QuickSettings.create(x, y, label, parent);
+      this.guiObj = qs;
   
       // proxy all functions of quicksettings
       this.prototype = qs;

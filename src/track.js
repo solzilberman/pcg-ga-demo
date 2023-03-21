@@ -1,20 +1,18 @@
 function Track() {
     this.noise_level = INIT_NOISE_LEVEL;
     this.radius = TRACK_RADIUS;
-    this.num_segments = 10;
+    this.num_segments = 20;
     this.points = [];
     this.segments = [];
     this.center = createVector(width / 2, height / 2);
     this.theta = INIT_TRACK_THETA;
+    this.y_offset = -0.15*height;
     this.generatePoints = function () {
         for (let i = 0; i < this.num_segments; i++) {
-            let angle = i * this.theta*PI / this.num_segments;
-            let x = width / 2 + this.radius * cos(angle);
-            let y = height / 2 + this.radius * sin(angle);
-            let offset = map(noise(i), 0, 1, -this.noise_level, this.noise_level);
-            x += offset;
-            y += offset;
-            this.points.push(createVector(x, y));
+            let off = map(i, 0, this.num_segments, 0.05, 1) * (0.9*width);
+            let x = off;
+            let y = height/2 + map(noise(i), 0, 1, -this.noise_level, this.noise_level);
+            this.points.push(createVector(x, y+ this.y_offset));
         }
     }
 
@@ -25,10 +23,12 @@ function Track() {
 
         for (let i = 0; i < this.points.length; i++) {
             
-            let curr = p5.Vector.sub(this.points[i], this.center);
-            let curr_mag = curr.mag();
-            let v1 = p5.Vector.add(this.center, curr.copy().setMag(curr_mag - WIDTH_DELTA));
-            let v2 = p5.Vector.add(this.center, curr.copy().setMag(curr_mag + WIDTH_DELTA));
+            // let curr = p5.Vector.sub(this.points[i], this.center);
+            // let curr_mag = curr.mag();
+            // let v1 = p5.Vector.add(this.center, curr.copy().setMag(curr_mag - WIDTH_DELTA));
+            // let v2 = p5.Vector.add(this.center, curr.copy().setMag(curr_mag + WIDTH_DELTA));
+            let v1 = createVector(this.points[i].x, this.points[i].y+WIDTH_DELTA);
+            let v2 = createVector(this.points[i].x, this.points[i].y-WIDTH_DELTA);
 
             this.segments.push({
                 middle: this.points[i],
@@ -100,6 +100,13 @@ function Track() {
         }
         this.drawStart();
         this.drawEnd();
+
+        // add text right of end with letter R
+        fill(255, 0, 0);
+        noStroke();
+        textSize(32);
+        let tc = this.y_offset > 0 ? 'MC' : 'GA'
+        text(tc, this.end.middle.x + 20, this.end.middle.y + 10);
     }
 
     this.drawBezier = function(){

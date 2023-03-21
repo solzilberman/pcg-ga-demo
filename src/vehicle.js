@@ -68,6 +68,7 @@ function Vehicle(track, starting_pos = createVector(width / 2, height / 2), star
             count = count + intersects(v0, v1, segments[i].right, segments[i - 1].right);
             count = count + intersects(v0, v1, segments[i].left, segments[i - 1].left);
         }
+        count = count + intersects(v0, v1, segments[0].right, segments[0].left);
         return count > 0 && count % 2 == 1;
     }
 
