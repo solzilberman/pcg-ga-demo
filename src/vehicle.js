@@ -84,6 +84,8 @@ function Vehicle(track, starting_pos = createVector(width / 2, height / 2), star
             }
         }
         this.fitness = map(d_ind, 0, waypoints.length, 0, 1);
+        // let distTrack = dist(this.pos.x, this.pos.y, this.track.segments[this.track.segments.length-1].middle.x, this.track.segments[this.track.segments.length-1].middle.y);
+        // this.fitness = map(distTrack, 0, width, 1, 0);
         if (this.crashed) {
             this.fitness /= 10;
         }

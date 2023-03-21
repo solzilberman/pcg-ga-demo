@@ -51,8 +51,8 @@ function drawDesignControls() {
 
     MODE_BUTTON.mousePressed(function () {
         MODE = "TUNE";
-        MODE_BUTTON.html("Tune");
-        MODE_LABEL.html(`Mode: "${MODE.toUpperCase()}"`);
+        // MODE_BUTTON.html("Lock GA");
+        // MODE_LABEL.html(`Mode: "${MODE.toUpperCase()}"`);
         POPULATION = new Population(TRACK);
         POPULATION_RANDOM = new Population(TRACK_RANDOM);
         createGui();
@@ -93,8 +93,8 @@ function drawTuneControls() {
 
     MODE_BUTTON.mousePressed(function () {
         MODE = "EVOLVE";
-        MODE_BUTTON.html("Reset");
-        MODE_LABEL.html(`Mode: "${MODE.toUpperCase()}"`);
+        // MODE_BUTTON.html("Reset");
+        // MODE_LABEL.html(`Mode: "${MODE.toUpperCase()}"`);
         createGui();
     });
 }
@@ -121,8 +121,8 @@ function drawEvolveControls() {
 
     MODE_BUTTON.mousePressed(function () {
         MODE = "TRACK";
-        MODE_BUTTON.html("Lock Track");
-        MODE_LABEL.html(`Mode: "${MODE.toUpperCase()}"`);
+        // MODE_BUTTON.html("Lock Track");
+        // MODE_LABEL.html(`Mode: "${MODE.toUpperCase()}"`);
         
         TRACK = new Track();
         POPULATION = new Population(TRACK);
@@ -136,14 +136,14 @@ function drawEvolveControls() {
 }
 
 var MODE_MESSAGE = {
-    "TRACK": "Step 1: Design a Road",
-    "TUNE": "Step 2: Setup GA Parameters",
-    "EVOLVE": "Step 3: Running GA..."
+    "TRACK": "1. Design the racetrack",
+    "TUNE": "2. Configure GA Parameters",
+    "EVOLVE": "3. Run GA vs MC Race..."
 }
 
 var MODE_BUTTON_MESSAGE = {
     "TRACK": "Lock Track",
-    "TUNE": "Tune",
+    "TUNE": "Lock GA",
     "EVOLVE": "Reset"
 }
 

@@ -1,3 +1,8 @@
+/* apply monospace font to everything */
+body {
+  font-family: monospace;
+}
+
 #canvasParent {
   display: flex;
   flex-direction: row-reverse;
@@ -8,7 +13,7 @@
  /* upper right hand corner canvasParent */
   top: 0;
   right: 0;
-  background: rgb(214, 203, 203);
+  background: rgb(230, 230, 230);
   width: 15vw;
   padding: 10px;
   display: flex;

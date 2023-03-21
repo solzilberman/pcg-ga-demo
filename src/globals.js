@@ -19,7 +19,7 @@ var TRACK_RADIUS = Math.min(0.3 * screen_height, 0.3 * screen_width);
 var INIT_TRACK_THETA = 1.5;
 
 // vehicle
-var VEHICLE_SIZE = 10;
+var VEHICLE_SIZE = 1.5*(WIDTH_DELTA%5+1);
 
 // sim
 var MODE_OPTIONS = ["design", "evolve", "track"];

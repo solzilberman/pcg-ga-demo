@@ -84,7 +84,7 @@ function Track() {
 
     this.draw = function () {
         beginShape();
-        fill(0, 0, 0, 50);
+        fill(127);
         noStroke();
         for (let j = 0; j < this.poly.length; j++) {
             vertex(this.poly[j].x, this.poly[j].y);
@@ -102,7 +102,7 @@ function Track() {
         this.drawEnd();
 
         // add text right of end with letter R
-        fill(255, 0, 0);
+        fill(255);
         noStroke();
         textSize(32);
         let tc = this.y_offset > 0 ? 'MC' : 'GA'

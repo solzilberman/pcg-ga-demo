@@ -18,6 +18,7 @@ let fitData = [0];
 let plotDiv; 
 var svg;
 var canvas2DContext;
+
 function setup() {    
     // randomSeed(870);
     var canvas = createCanvas(screen_width,screen_height);
@@ -31,7 +32,7 @@ function setup() {
 }
 
 function draw() {
-    background(220);
+    background(126,200,80);
     TRACK.draw();
     TRACK_RANDOM.draw();
 
