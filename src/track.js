@@ -1,15 +1,16 @@
 function Track() {
     this.noise_level = INIT_NOISE_LEVEL;
     this.radius = TRACK_RADIUS;
-    this.num_segments = 20;
+    this.segment_size = .1;
+    this.number_segments = 30;
     this.points = [];
     this.segments = [];
     this.center = createVector(width / 2, height / 2);
     this.theta = INIT_TRACK_THETA;
     this.y_offset = -0.15*height;
     this.generatePoints = function () {
-        for (let i = 0; i < this.num_segments; i++) {
-            let off = map(i, 0, this.num_segments, 0.05, 1) * (0.9*width);
+        for (let i = 0; i < this.number_segments; i++) {
+            let off = map(i, 0, this.number_segments, this.segment_size*width, (1-this.segment_size)*width);
             let x = off;
             let y = height/2 + map(noise(i), 0, 1, -this.noise_level, this.noise_level);
             this.points.push(createVector(x, y+ this.y_offset));
@@ -42,14 +43,14 @@ function Track() {
         for (let j = 1; j < this.segments.length; j++) {
             this.poly.push(this.segments[j].left);
         }
-        this.poly.push(this.segments[this.num_segments - 1].middle);
-        this.poly.push(this.segments[this.num_segments - 1].right);
+        this.poly.push(this.segments[this.segments.length - 1].middle);
+        this.poly.push(this.segments[this.segments.length - 1].right);
         for (let j = this.segments.length - 1; j > 0; j--) {
             this.poly.push(this.segments[j].right);
         }
         this.poly.push(this.segments[0].right);
         this.start = this.segments[0];
-        this.end = this.segments[this.num_segments - 1];
+        this.end = this.segments[this.segments.length - 1];
     }
 
     this.update();
@@ -128,7 +129,7 @@ function Track() {
                 stroke(0)
             }
             beginShape();
-            curveVertex(this.segments[this.num_segments-1][edges[i]].x, this.segments[this.num_segments-1][edges[i]].y);
+            curveVertex(this.segments[this.segment_size-1][edges[i]].x, this.segments[this.segment_size-1][edges[i]].y);
             for (let j = 0; j < this.points.length; j++) {
                 curveVertex(this.segments[j][edges[i]].x, this.segments[j][edges[i]].y);
             }

@@ -19,13 +19,13 @@ function drawDesignControls() {
 
     sliderNumSegmentsLabel = createDiv();
     sliderNumSegmentsLabel.parent('guiDiv');
-    sliderNumSegments = createSlider(sliderNumSegmentsMin, sliderNumSegmentsMax, sliderNumSegmentsInit, sliderNumSegmentsStep);
-    sliderNumSegments.parent('guiDiv');
-    sliderNumSegmentsLabel.html(`Segments: ${sliderNumSegments.value()}`);
-    sliderNumSegments.input(function () {
-        sliderNumSegmentsLabel.html(`Segments: <code>${sliderNumSegments.value()}</code>`);
+    sliderSegmentSize = createSlider(sliderSegmentSizeMin, sliderSegmentSizeMax, sliderSegmentSizeInit, sliderSegmentSizeStep);
+    sliderSegmentSize.parent('guiDiv');
+    sliderNumSegmentsLabel.html(`Segment Size: ${sliderSegmentSize.value()}`);
+    sliderSegmentSize.input(function () {
+        sliderNumSegmentsLabel.html(`Segment Size: <code>${sliderSegmentSize.value()}</code>`);
     });
-    setSliderAndLabelStyle(sliderNumSegments, sliderNumSegmentsLabel);
+    setSliderAndLabelStyle(sliderSegmentSize, sliderNumSegmentsLabel);
 
     sliderNoiseLevelLabel = createDiv();
     sliderNoiseLevelLabel.parent('guiDiv');
@@ -43,8 +43,8 @@ function drawDesignControls() {
     RANDOMIZE_BUTTON.style('margin-top', '10px');
     RANDOMIZE_BUTTON.mousePressed(function () {
         // sliderTheta.value(random(sliderThetaMin, sliderThetaMax));
-        sliderNumSegments.value(random(sliderNumSegmentsMin, sliderNumSegmentsMax));
-        sliderNumSegmentsLabel.html(`Segments: <code>${sliderNumSegments.value()}</code>`);
+        sliderSegmentSize.value(random(sliderSegmentSizeMin, sliderSegmentSizeMax));
+        sliderNumSegmentsLabel.html(`Segments: <code>${sliderSegmentSize.value()}</code>`);
         sliderNoiseLevel.value(random(sliderNoiseLevelMin, sliderNoiseLevelMax));
         sliderNoiseLevelLabel.html(`Noise: <code>${sliderNoiseLevel.value()}</code>`);
     });
@@ -178,10 +178,10 @@ function createGui() {
 
 function updateTrackFromGui(track) {
     // sliderTheta.value() != track.theta || 
-    if (sliderNumSegments.value() != track.num_segments || sliderNoiseLevel.value() != track.noise_level) {
+    if (sliderSegmentSize.value() != track.segment_size || sliderNoiseLevel.value() != track.noise_level) {
         // track.theta = sliderTheta.value();
-        track.num_segments = sliderNumSegments.value();
-        track.noise_level = sliderNoiseLevel.value();
+        track.segment_size = map(sliderSegmentSize.value(),sliderSegmentSizeMin,sliderSegmentSizeMax,.2,.1);
+        track.noise_level = map(sliderNoiseLevel.value(), sliderNoiseLevelMin, sliderNoiseLevelMax, 0, 25);
         track.update();
     }
 }

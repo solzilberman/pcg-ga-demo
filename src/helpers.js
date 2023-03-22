@@ -10,12 +10,12 @@ function nextMode() {
 }
 
 function handleSliders() {
-    tmpNumSeg = sliderNumSegments.value();
-    if (track.num_segments != tmpNumSeg) {
-        track.num_segments = sliderNumSegments.value();
+    tmpNumSeg = sliderSegmentSize.value();
+    if (track.segment_size != tmpNumSeg) {
+        track.segment_size = sliderSegmentSize.value();
         track.update();
     }
-    labelNumSegments.html('Num Segments: ' + track.num_segments);
+    labelNumSegments.html('Num Segments: ' + track.segment_size);
 
     tmpNoiseLevel = sliderNoiseLevel.value();
     if (track.noise_level != tmpNoiseLevel) {

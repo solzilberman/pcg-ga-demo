@@ -22,12 +22,22 @@ function Vehicle(track, starting_pos = createVector(width / 2, height / 2), star
     this.track = track;
     this.fitness = 0;
     this.crashed = false;
+    this.finished = false;
 
     this.update = function () {
         if (this.count >= this.genome.genes.length || this.crashed) {
             // console.log("Finished" + this.pos);
             return
         }
+        
+        let finish_line = this.track.end;
+        if (this.pos.x > finish_line.middle.x) {
+            this.fitness = 9999999;
+            this.finished = true;
+            this.fill = "green";
+            return
+        }
+
         if (this.isInsideTrack(this.track.segments) == false) {
             // console.log("Out of track");
             this.fill = "red";
@@ -73,19 +83,25 @@ function Vehicle(track, starting_pos = createVector(width / 2, height / 2), star
     }
 
     this.calculateFitness = function () {
+        // let waypoints = this.track.segments.map(s => s.middle);
+        // let d = Infinity;
+        // let d_ind = 0;
+        // for (let i = 0; i < waypoints.length; i++) {
+        //     let d1 = dist(this.pos.x, this.pos.y, waypoints[i].x, waypoints[i].y);
+        //     if (d1 < d) {
+        //         d = d1;
+        //         d_ind = i;
+        //     }
+        // }
+        // this.fitness = map(d_ind, 0, waypoints.length, 0, 1);
+        
+        let sum_dist_bw_waypoints = 0;
         let waypoints = this.track.segments.map(s => s.middle);
-        let d = Infinity;
-        let d_ind = 0;
-        for (let i = 0; i < waypoints.length; i++) {
-            let d1 = dist(this.pos.x, this.pos.y, waypoints[i].x, waypoints[i].y);
-            if (d1 < d) {
-                d = d1;
-                d_ind = i;
-            }
+        for (let i = 1; i < waypoints.length; i++) {
+            sum_dist_bw_waypoints += dist(waypoints[i].x, waypoints[i].y, waypoints[i-1].x, waypoints[i-1].y);
         }
-        this.fitness = map(d_ind, 0, waypoints.length, 0, 1);
-        // let distTrack = dist(this.pos.x, this.pos.y, this.track.segments[this.track.segments.length-1].middle.x, this.track.segments[this.track.segments.length-1].middle.y);
-        // this.fitness = map(distTrack, 0, width, 1, 0);
+        this.fitness = map(dist(this.pos.x,this.pos.y, this.track.end.middle.x, this.track.end.middle.y), 0, sum_dist_bw_waypoints, 1, 0);
+        
         if (this.crashed) {
             this.fitness /= 10;
         }

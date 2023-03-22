@@ -14,12 +14,12 @@ var NUM_GENERATIONS = 1000;
 var WIDTH_DELTA = Math.min(Math.round(screen_width / 50)*1.5, 50);
 var ELLIPSE_SIZE = 2;
 var INIT_NOISE_LEVEL = 10;
-var INIT_NUM_SEGMENTS = 20;
+var INIT_SEGMENT_SIZE = 0.1;
 var TRACK_RADIUS = Math.min(0.3 * screen_height, 0.3 * screen_width);
 var INIT_TRACK_THETA = 1.5;
 
 // vehicle
-var VEHICLE_SIZE = 1.5*(WIDTH_DELTA%5+1);
+var VEHICLE_SIZE = get_vehicle_size();
 
 // sim
 var MODE_OPTIONS = ["design", "evolve", "track"];
@@ -33,11 +33,11 @@ var sliderThetaMax = 2;
 var sliderThetaStep = 0.1;
 var sliderThetaLabel;
 
-var sliderNumSegments;
-var sliderNumSegmentsInit = INIT_NUM_SEGMENTS;
-var sliderNumSegmentsMin = 1;
-var sliderNumSegmentsMax = 25;
-var sliderNumSegmentsStep = 1;
+var sliderSegmentSize;
+var sliderSegmentSizeInit = INIT_SEGMENT_SIZE;
+var sliderSegmentSizeMin = 0;
+var sliderSegmentSizeMax = 1;
+var sliderSegmentSizeStep = .01;
 var sliderNumSegmentsLabel;
 
 var sliderNoiseLevel;
@@ -72,3 +72,14 @@ var fitLabel;
 var fitLabelRandom;
 let MODE_LABEL;
 let MODE_BUTTON;
+
+
+function get_vehicle_size() {
+    if (window.innerWidth > 1500) {
+        return 10;
+    } else if (window.innerWidth > 1000) {
+        return 8;
+    } else if (window.innerWidth > 500) {
+        return 6;
+    }
+}
