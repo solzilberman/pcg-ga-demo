@@ -3,8 +3,8 @@ let screen_width = window.innerWidth * 0.75;
 let screen_height = window.innerHeight * 0.90;
 
 // ga
-var POPULATION_SIZE = 500;
-var SINGLE_EPOCH_DURATION = 250;
+var POPULATION_SIZE = 400;
+var SINGLE_EPOCH_DURATION = 175;
 var MUTATION_RATE = 0.01;
 var XOVER_RATE = 0.9;
 var MAX_MAG = 5;
@@ -93,9 +93,9 @@ function get_vehicle_size() {
     if (window.innerWidth > 1500) {
         return 10;
     } else if (window.innerWidth > 1000) {
-        return 8;
-    } else if (window.innerWidth > 500) {
         return 6;
+    } else if (window.innerWidth > 500) {
+        return 3;
     }
 }
 
