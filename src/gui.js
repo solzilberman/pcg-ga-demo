@@ -205,7 +205,7 @@ function updateTrackFromGui(track) {
         // track.theta = sliderTheta.value();
         track.num_obstacles = sliderNumObstacles.value();
         // track.segment_size = map(sliderSegmentSize.value(),sliderSegmentSizeMin,sliderSegmentSizeMax,.2,.1);
-        track.noise_level = map(sliderNoiseLevel.value(), sliderNoiseLevelMin, sliderNoiseLevelMax, 0, 30);
+        track.noise_level = map(sliderNoiseLevel.value(), sliderNoiseLevelMin, sliderNoiseLevelMax, 0, 27);
         track.update();
     }
 }
