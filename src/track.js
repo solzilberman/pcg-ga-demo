@@ -7,29 +7,49 @@ function Track() {
     this.segments = [];
     this.center = createVector(width / 2, height / 2);
     this.theta = INIT_TRACK_THETA;
-    this.y_offset = -0.15*height;
+    this.y_offset = -width/4;
+    this.obstacles = [];
+    this.num_obstacles = 0;
     this.generatePoints = function () {
+        // for (let i = 0; i < this.number_segments; i++) {
+        //     let off = map(i, 0, this.number_segments, this.segment_size*width, (1-this.segment_size)*width);
+        //     let x = off;
+        //     let y = height/2 + map(noise(i), 0, 1, -this.noise_level, this.noise_level);
+        //     this.points.push(createVector(x, y+ this.y_offset));
+        // }
         for (let i = 0; i < this.number_segments; i++) {
-            let off = map(i, 0, this.number_segments, this.segment_size*width, (1-this.segment_size)*width);
-            let x = off;
-            let y = height/2 + map(noise(i), 0, 1, -this.noise_level, this.noise_level);
-            this.points.push(createVector(x, y+ this.y_offset));
+            let angle = i * this.theta*PI / this.number_segments;
+            let x = this.y_offset + width / 2 + this.radius * cos(angle);
+            let y = height / 2 + this.radius * sin(angle);
+            let offset = map(noise(i), 0, 1, -this.noise_level, this.noise_level);
+            // x += offset;
+            y += offset;
+            this.points.push(createVector(x, y));
         }
+
+        // select 3 random points and ensure they are not too close to each other
+        let point1 = this.points[this.points.length/3];
+        let point2 = this.points[2*this.points.length/3];
+        let point3 = this.points[this.points.length-3];
+        this.obstacles.push(createVector(point1.x, point1.y));
+        this.obstacles.push(createVector(point2.x, point2.y));
+        this.obstacles.push(createVector(point3.x, point3.y));
     }
 
     this.update = function () {
         this.points = [];
         this.segments = [];
+        this.obstacles = [];
         this.generatePoints();
 
         for (let i = 0; i < this.points.length; i++) {
-            
-            // let curr = p5.Vector.sub(this.points[i], this.center);
-            // let curr_mag = curr.mag();
-            // let v1 = p5.Vector.add(this.center, curr.copy().setMag(curr_mag - WIDTH_DELTA));
-            // let v2 = p5.Vector.add(this.center, curr.copy().setMag(curr_mag + WIDTH_DELTA));
-            let v1 = createVector(this.points[i].x, this.points[i].y+WIDTH_DELTA);
-            let v2 = createVector(this.points[i].x, this.points[i].y-WIDTH_DELTA);
+            let new_center = createVector(this.center.x+this.y_offset, this.center.y);
+            let curr = p5.Vector.sub(this.points[i], new_center);
+            let curr_mag = curr.mag();
+            let v1 = p5.Vector.add(new_center, curr.copy().setMag(curr_mag - WIDTH_DELTA));
+            let v2 = p5.Vector.add(new_center, curr.copy().setMag(curr_mag + WIDTH_DELTA));
+            // let v1 = createVector(this.points[i].x, this.points[i].y+WIDTH_DELTA);
+            // let v2 = createVector(this.points[i].x, this.points[i].y-WIDTH_DELTA);
 
             this.segments.push({
                 middle: this.points[i],
@@ -101,7 +121,15 @@ function Track() {
         }
         this.drawStart();
         this.drawEnd();
+        
+        for (let i = 0; i < this.num_obstacles; i++) {
+            fill(255, 0, 0);
+            ellipse(this.obstacles[i].x, this.obstacles[i].y, OBSTACLE_RADIUS,OBSTACLE_RADIUS);
+        }
 
+
+        // ellipse(this.center.x, this.center.y, ELLIPSE_SIZE, ELLIPSE_SIZE);
+        
         fill(255);
         noStroke();
         textSize(32);

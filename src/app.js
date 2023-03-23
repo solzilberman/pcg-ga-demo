@@ -26,7 +26,7 @@ function setup() {
     canvas2DContext = canvas.canvas;
     TRACK = new Track();
     TRACK_RANDOM = new Track();
-    TRACK_RANDOM.y_offset = 0.15*height;
+    TRACK_RANDOM.y_offset*=-1;
     TRACK_RANDOM.update();   
     createGui();
 }

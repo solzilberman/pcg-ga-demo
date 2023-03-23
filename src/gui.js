@@ -17,15 +17,25 @@ function drawDesignControls() {
     // });
     // setSliderAndLabelStyle(sliderTheta, sliderThetaLabel);
 
-    sliderNumSegmentsLabel = createDiv();
-    sliderNumSegmentsLabel.parent('guiDiv');
-    sliderSegmentSize = createSlider(sliderSegmentSizeMin, sliderSegmentSizeMax, sliderSegmentSizeInit, sliderSegmentSizeStep);
-    sliderSegmentSize.parent('guiDiv');
-    sliderNumSegmentsLabel.html(`Segment Size: ${sliderSegmentSize.value()}`);
-    sliderSegmentSize.input(function () {
-        sliderNumSegmentsLabel.html(`Segment Size: <code>${sliderSegmentSize.value()}</code>`);
+    sliderNumObstaclesLabel = createDiv();
+    sliderNumObstaclesLabel.parent('guiDiv');
+    sliderNumObstacles = createSlider(sliderNumObstaclesMin, sliderNumObstaclesMax, sliderNumObstaclesInit, sliderNumObstaclesStep);
+    sliderNumObstacles.parent('guiDiv');
+    sliderNumObstaclesLabel.html(`Obstacles: ${sliderNumObstacles.value()}`);
+    sliderNumObstacles.input(function () {
+        sliderNumObstaclesLabel.html(`Obstacles: <code>${sliderNumObstacles.value()}</code>`);
     });
-    setSliderAndLabelStyle(sliderSegmentSize, sliderNumSegmentsLabel);
+    setSliderAndLabelStyle(sliderNumObstacles, sliderNumObstaclesLabel);
+    
+    // sliderNumSegmentsLabel = createDiv();
+    // sliderNumSegmentsLabel.parent('guiDiv');
+    // sliderSegmentSize = createSlider(sliderSegmentSizeMin, sliderSegmentSizeMax, sliderSegmentSizeInit, sliderSegmentSizeStep);
+    // sliderSegmentSize.parent('guiDiv');
+    // sliderNumSegmentsLabel.html(`Segment Size: ${sliderSegmentSize.value()}`);
+    // sliderSegmentSize.input(function () {
+    //     sliderNumSegmentsLabel.html(`Segment Size: <code>${sliderSegmentSize.value()}</code>`);
+    // });
+    // setSliderAndLabelStyle(sliderSegmentSize, sliderNumSegmentsLabel);
 
     sliderNoiseLevelLabel = createDiv();
     sliderNoiseLevelLabel.parent('guiDiv');
@@ -43,10 +53,13 @@ function drawDesignControls() {
     RANDOMIZE_BUTTON.style('margin-top', '10px');
     RANDOMIZE_BUTTON.mousePressed(function () {
         // sliderTheta.value(random(sliderThetaMin, sliderThetaMax));
-        sliderSegmentSize.value(random(sliderSegmentSizeMin, sliderSegmentSizeMax));
-        sliderNumSegmentsLabel.html(`Segments: <code>${sliderSegmentSize.value()}</code>`);
+        // sliderSegmentSize.value(random(sliderSegmentSizeMin, sliderSegmentSizeMax));
+        // sliderNumSegmentsLabel.html(`Segments: <code>${sliderSegmentSize.value()}</code>`);
         sliderNoiseLevel.value(random(sliderNoiseLevelMin, sliderNoiseLevelMax));
         sliderNoiseLevelLabel.html(`Noise: <code>${sliderNoiseLevel.value()}</code>`);
+
+        sliderNumObstacles.value(random(sliderNumObstaclesMin, sliderNumObstaclesMax));
+        sliderNumObstaclesLabel.html(`Obstacles: <code>${sliderNumObstacles.value()}</code>`);
     });
 
     MODE_BUTTON.mousePressed(function () {
@@ -70,15 +83,15 @@ function drawTuneControls() {
     });
     setSliderAndLabelStyle(sliderPopSize, sliderPopSizeLabel);
 
-    sliderEpochDurationLabel = createDiv();
-    sliderEpochDurationLabel.parent('guiDiv');
-    sliderEpochDuration = createSlider(sliderEpochDurationMin, sliderEpochDurationMax, sliderEpochDurationInit, sliderEpochDurationStep);
-    sliderEpochDuration.parent('guiDiv');
-    sliderEpochDurationLabel.html(`Epoch Duration: ${sliderEpochDuration.value()}`);
-    sliderEpochDuration.input(function () {
-        sliderEpochDurationLabel.html(`Epoch Duration: <code>${sliderEpochDuration.value()}</code>`);
-    });
-    setSliderAndLabelStyle(sliderEpochDuration, sliderEpochDurationLabel);
+    // sliderEpochDurationLabel = createDiv();
+    // sliderEpochDurationLabel.parent('guiDiv');
+    // sliderEpochDuration = createSlider(sliderEpochDurationMin, sliderEpochDurationMax, sliderEpochDurationInit, sliderEpochDurationStep);
+    // sliderEpochDuration.parent('guiDiv');
+    // sliderEpochDurationLabel.html(`Epoch Duration: ${sliderEpochDuration.value()}`);
+    // sliderEpochDuration.input(function () {
+    //     sliderEpochDurationLabel.html(`Epoch Duration: <code>${sliderEpochDuration.value()}</code>`);
+    // });
+    // setSliderAndLabelStyle(sliderEpochDuration, sliderEpochDurationLabel);
 
     sliderMutationRateLabel = createDiv();
     sliderMutationRateLabel.parent('guiDiv');
@@ -89,6 +102,16 @@ function drawTuneControls() {
         sliderMutationRateLabel.html(`Mutation Rate: <code>${sliderMutationRate.value()}</code>`);
     });
     setSliderAndLabelStyle(sliderMutationRate, sliderMutationRateLabel);
+
+    sliderXoverRateLabel = createDiv();
+    sliderXoverRateLabel.parent('guiDiv');
+    sliderXoverRate = createSlider(sliderXoverRateMin, sliderXoverRateMax, sliderXoverRateInit, sliderXoverRateStep);
+    sliderXoverRate.parent('guiDiv');
+    sliderXoverRateLabel.html(`Crossover Rate: ${sliderXoverRate.value()}`);
+    sliderXoverRate.input(function () {
+        sliderXoverRateLabel.html(`Crossover Rate: <code>${sliderXoverRate.value()}</code>`);
+    });
+    setSliderAndLabelStyle(sliderXoverRate, sliderXoverRateLabel);
 
 
     MODE_BUTTON.mousePressed(function () {
@@ -178,19 +201,21 @@ function createGui() {
 
 function updateTrackFromGui(track) {
     // sliderTheta.value() != track.theta || 
-    if (sliderSegmentSize.value() != track.segment_size || sliderNoiseLevel.value() != track.noise_level) {
+    if (sliderNoiseLevel.value() != track.noise_level || sliderNumObstacles.value() != track.num_obstacles) {
         // track.theta = sliderTheta.value();
-        track.segment_size = map(sliderSegmentSize.value(),sliderSegmentSizeMin,sliderSegmentSizeMax,.2,.1);
-        track.noise_level = map(sliderNoiseLevel.value(), sliderNoiseLevelMin, sliderNoiseLevelMax, 0, 25);
+        track.num_obstacles = sliderNumObstacles.value();
+        // track.segment_size = map(sliderSegmentSize.value(),sliderSegmentSizeMin,sliderSegmentSizeMax,.2,.1);
+        track.noise_level = map(sliderNoiseLevel.value(), sliderNoiseLevelMin, sliderNoiseLevelMax, 0, 35);
         track.update();
     }
 }
 
 function updateEvolveFromGui(evolve) {
-    if (sliderPopSize.value() != evolve.population_size || sliderEpochDuration.value() != SINGLE_EPOCH_DURATION || sliderMutationRate.value() != MUTATION_RATE) {
+    if (sliderPopSize.value() != evolve.population_size || sliderMutationRate.value() != MUTATION_RATE || sliderXoverRate.value() != XOVER_RATE) {
         evolve.population_size = sliderPopSize.value();
-        SINGLE_EPOCH_DURATION = sliderEpochDuration.value();
+        // SINGLE_EPOCH_DURATION = sliderEpochDuration.value();
         MUTATION_RATE = sliderMutationRate.value();
+        XOVER_RATE = sliderXoverRate.value();
         evolve.reset();
     }
 }

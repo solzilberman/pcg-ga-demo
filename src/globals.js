@@ -4,8 +4,9 @@ let screen_height = window.innerHeight * 0.90;
 
 // ga
 var POPULATION_SIZE = 500;
-var SINGLE_EPOCH_DURATION = 200;
+var SINGLE_EPOCH_DURATION = 250;
 var MUTATION_RATE = 0.01;
+var XOVER_RATE = 0.9;
 var MAX_MAG = 5;
 var GENOME_MAX_MAG = 2;
 var NUM_GENERATIONS = 1000;
@@ -13,9 +14,10 @@ var NUM_GENERATIONS = 1000;
 // track
 var WIDTH_DELTA = Math.min(Math.round(screen_width / 50)*1.5, 50);
 var ELLIPSE_SIZE = 2;
-var INIT_NOISE_LEVEL = 10;
+var OBSTACLE_RADIUS = 10;
+var INIT_NOISE_LEVEL = 0;
 var INIT_SEGMENT_SIZE = 0.1;
-var TRACK_RADIUS = Math.min(0.3 * screen_height, 0.3 * screen_width);
+var TRACK_RADIUS = get_track_radius()//Math.min(0.2 * screen_height, 0.2 * screen_width);
 var INIT_TRACK_THETA = 1.5;
 
 // vehicle
@@ -68,6 +70,19 @@ var sliderMutationRateMax = 0.5;
 var sliderMutationRateStep = 0.01;
 var sliderMutationRateLabel;
 
+var sliderXoverRate;
+var sliderXoverRateInit = XOVER_RATE;
+var sliderXoverRateMin = 0;
+var sliderXoverRateMax = 1.0;
+var sliderXoverRateStep = 0.01;
+var sliderXoverRateLabel;
+
+var sliderNumObstacles;
+var sliderNumObstaclesInit = 0;
+var sliderNumObstaclesMin = 0;
+var sliderNumObstaclesMax = 3;
+var sliderNumObstaclesStep = 1;
+
 var fitLabel;
 var fitLabelRandom;
 let MODE_LABEL;
@@ -81,5 +96,17 @@ function get_vehicle_size() {
         return 8;
     } else if (window.innerWidth > 500) {
         return 6;
+    }
+}
+
+function get_track_radius() {
+    if (window.innerWidth > 1500) {
+        return 200;
+    } else if (window.innerWidth > 1000) {
+        return 150;
+    } else if (window.innerWidth > 500) {
+        return 100;
+    } else {
+        return 50;
     }
 }

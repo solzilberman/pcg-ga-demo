@@ -13,7 +13,7 @@ function Genome(genes) {
         for (let i = 0; i < this.genes.length; i++) {
             if (random(1) < MUTATION_RATE) {
                 this.genes[i] = p5.Vector.random2D();
-                this.genes[i].setMag(MAX_MAG);
+                this.genes[i].setMag(GENOME_MAX_MAG);
             }
         }
     }

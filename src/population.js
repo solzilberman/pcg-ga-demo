@@ -58,7 +58,7 @@ function Population(track){
 
     this.crossover = function (parent_a, parent_b) {
         let child = new Vehicle(this.track, position.copy(), direction.normalize());
-        if (Math.random() > 0.9) {
+        if (Math.random() > XOVER_RATE) {
             child.genome = new Genome(parent_a.genome.genes);
             return child;
         }
