@@ -59,7 +59,9 @@ function Population(track){
     this.crossover = function (parent_a, parent_b) {
         let child = new Vehicle(this.track, position.copy(), direction.normalize());
         if (Math.random() > XOVER_RATE) {
-            child.genome = new Genome(parent_a.genome.genes);
+            // create copy of parent_a genes
+            let new_genes = parent_a.genome.genes.slice();
+            child.genome = new Genome(new_genes);
             return child;
         }
         let mid = Math.floor(random(parent_a.genome.genes.length));
@@ -87,5 +89,7 @@ function Population(track){
 
     this.reset = function () {
         this.generatePopulation();
+        SINGLE_EPOCH_COUNT = 0;
+        CURR_GENERATION = 0;
     }
 }

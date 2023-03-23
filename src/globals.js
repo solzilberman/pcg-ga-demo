@@ -66,7 +66,7 @@ var sliderEpochDurationLabel;
 var sliderMutationRate;
 var sliderMutationRateInit = MUTATION_RATE;
 var sliderMutationRateMin = 0;
-var sliderMutationRateMax = 0.5;
+var sliderMutationRateMax = 1.0;
 var sliderMutationRateStep = 0.01;
 var sliderMutationRateLabel;
 
