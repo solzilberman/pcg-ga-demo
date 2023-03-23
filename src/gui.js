@@ -134,7 +134,7 @@ function drawEvolveControls() {
     fitLabelBar.parent('guiDiv');
     fitLabelBar.style('font-size', '16px');
     fitLabelBar.style('font-family', 'monospace');
-    fitLabelBar.html(`------------------------`);
+    fitLabelBar.html(`-----`);
 
     fitLabelRandom = createDiv();
     fitLabelRandom.parent('guiDiv');
@@ -205,7 +205,7 @@ function updateTrackFromGui(track) {
         // track.theta = sliderTheta.value();
         track.num_obstacles = sliderNumObstacles.value();
         // track.segment_size = map(sliderSegmentSize.value(),sliderSegmentSizeMin,sliderSegmentSizeMax,.2,.1);
-        track.noise_level = map(sliderNoiseLevel.value(), sliderNoiseLevelMin, sliderNoiseLevelMax, 0, 35);
+        track.noise_level = map(sliderNoiseLevel.value(), sliderNoiseLevelMin, sliderNoiseLevelMax, 0, 30);
         track.update();
     }
 }
