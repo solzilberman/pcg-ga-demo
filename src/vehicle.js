@@ -91,6 +91,10 @@ function Vehicle(track, starting_pos = createVector(width / 2, height / 2), star
 
 
     this.checkObstacleCollision = function (track) {
+        if (track.num_obstacles == 0) {
+            return false;
+        }
+
         for (let i = 0; i < track.num_obstacles; i++) {
             let obstacle = track.obstacles[i];
             if (dist(this.pos.x, this.pos.y, obstacle.x, obstacle.y) < OBSTACLE_RADIUS) {
