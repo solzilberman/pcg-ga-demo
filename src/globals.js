@@ -93,7 +93,7 @@ function get_vehicle_size() {
     if (window.innerWidth > 1500) {
         return 10;
     } else if (window.innerWidth > 1000) {
-        return 6;
+        return 7;
     } else if (window.innerWidth > 500) {
         return 3;
     }

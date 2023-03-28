@@ -20,7 +20,8 @@ var svg;
 var canvas2DContext;
 
 function setup() {    
-    // randomSeed(870);
+    randomSeed(870);
+    frameRate(45);
     var canvas = createCanvas(screen_width,screen_height);
     canvas.parent('canvasParent');
     canvas2DContext = canvas.canvas;
